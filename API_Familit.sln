@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Familit", "API_Familit\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{95427525-FF57-45E7-9999-1A9527743279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBoxJWT", "ToolBoxJWT\ToolBoxJWT.csproj", "{2F84DD85-419B-4665-869F-704B9B2D228C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{95427525-FF57-45E7-9999-1A9527743279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95427525-FF57-45E7-9999-1A9527743279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95427525-FF57-45E7-9999-1A9527743279}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F84DD85-419B-4665-869F-704B9B2D228C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F84DD85-419B-4665-869F-704B9B2D228C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F84DD85-419B-4665-869F-704B9B2D228C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F84DD85-419B-4665-869F-704B9B2D228C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

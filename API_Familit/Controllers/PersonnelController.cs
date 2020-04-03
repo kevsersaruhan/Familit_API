@@ -36,7 +36,7 @@ namespace API_Familit.Controllers
     }
 
     [AcceptVerbs("PUT")]
-    [Route("Secure/Personnel/{id}")]
+    [Route("Secure/Personnel/{id}/ChangePassword/{s:alpha}")]
     public void ChangePassword(int id, string s)
     {
       _service.ChangePassword(id, s);

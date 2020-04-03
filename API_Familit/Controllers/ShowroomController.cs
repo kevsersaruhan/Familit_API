@@ -45,7 +45,7 @@ namespace API_Familit.Controllers
       return _service.Get();
     }
     [AcceptVerbs("GET")]
-    [Route("Showroom/{name}")]
+    [Route("Showroom/{name}/GetByName")]
     public IEnumerable<Showroom_API> GetShowroomByName(string name)
     {
       return _service.GetShowroomByName(name);
