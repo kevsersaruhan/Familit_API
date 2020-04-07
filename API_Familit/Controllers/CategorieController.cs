@@ -49,7 +49,7 @@ namespace API_Familit.Controllers
       return _service.Get(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Caracteristique/{name}/GetCategorieByName")]
+    [Route("Caracteristique/{name}/GeteByName")]
     public IEnumerable<Categorie_API> GetCategorieByName(string s)
     {
       return _service.GetCategorieByName(s);

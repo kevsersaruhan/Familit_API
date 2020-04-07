@@ -20,30 +20,42 @@ namespace API_Familit.Controllers
     {
       _service.Activer(id);
     }
+
     [AcceptVerbs("POST")]
     [Route("Secure/Showroom")]
     public void Add(Showroom_API entity)
     {
       _service.Add(entity);
     }
+
     [AcceptVerbs("DELETE")]
     [Route("Secure/Showroom/{id}")]
     public void Delete(int id)
     {
       _service.Delete(id);
     }
+
     [AcceptVerbs("PUT","POST")]
     [Route("Secure/Showroom/{id}/Desactiver")]
     public void Desactiver(int id)
     {
       _service.Desactiver(id);
     }
+
     [AcceptVerbs("GET")]
     [Route("Showroom")]
     public IEnumerable<Showroom_API> Get()
     {
       return _service.Get();
     }
+
+    [AcceptVerbs("GET")]
+    [Route("Showroom/{id}/GetById")]
+    public Showroom_API Get(int id)
+    {
+      return _service.Get(id);
+    }
+
     [AcceptVerbs("GET")]
     [Route("Showroom/{name}/GetByName")]
     public IEnumerable<Showroom_API> GetShowroomByName(string name)

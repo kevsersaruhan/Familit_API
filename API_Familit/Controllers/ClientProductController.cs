@@ -11,11 +11,14 @@ namespace API_Familit.Controllers
     public class ClientProductController : ApiController
     {
       private ClientProductService _service = new ClientProductService();
-
+    [AcceptVerbs("PUT")]
+    [Route("Secure/ClientProduct/{idclient}/{idproduct}/Add")]
     public void AddProductToFav(int idProduct, int idClient)
     {
       _service.AddProductToFav(idProduct, idClient);
     }
+    [AcceptVerbs("DELETE")]
+    [Route("Secure/ClientProduct/{id}/Delete")]
     public void DeleteProductFav(int id)
     {
       _service.DeleteProductFav(id);

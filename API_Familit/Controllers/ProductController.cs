@@ -20,42 +20,49 @@ namespace API_Familit.Controllers
       {
         _service.Activer(id);
       }
+
       [AcceptVerbs("POST")]
       [Route("Secure/Product")]
       public void Add(Product_API entity)
       {
         _service.Add(entity);
       }
+
       [AcceptVerbs("DELETE")]
       [Route("Secure/Product/{id}")]
       public void Delete(int id)
       {
         _service.Delete(id);
       }
+
       [AcceptVerbs("PUT", "POST")]
       [Route("Secure/Product/{id}/Desactiver")]
       public void Desactiver(int id)
       {
         _service.Desactiver(id);
       }
+
       [AcceptVerbs("GET")]
       [Route("Product")]
       public IEnumerable<Product_API> Get()
       {
         return _service.Get();
       }
+
       [AcceptVerbs("GET")]
       [Route("Product/{id}")]
       public Product_API Get(int id)
       {
         return _service.Get(id);
       }
+
       [AcceptVerbs("GET")]
       [Route("Product/{id}/GetByFournisseur")]
       public IEnumerable<Product_API> GetProductByFournisseur(int id)
       {
         return _service.GetProductByFournisseur(id);
       }
+
       [AcceptVerbs("GET")]
       [Route("Product/{nom}/GetByName")]
       public IEnumerable<Product_API> GetProductByName(string s)
