@@ -44,5 +44,17 @@ namespace API_Familit.Controllers
     {
       _service.Update(id, entity);
     }
+    [AcceptVerbs("GET")]
+    [Route("LigneDeCommande/{id}/GetByCommande")]
+    public IEnumerable<LigneDeCommande_API> GetByCommandeId(int idCommande)
+    {
+      return _service.GetByCommandeId(idCommande);
+    }
+    [AcceptVerbs("GET")]
+    [Route("LigneDeCommande/{id}/GetByProduct")]
+    public IEnumerable<LigneDeCommande_API> GetByProductId(int idProduct)
+    {
+      return _service.GetByProductId(idProduct);
+    }
   }
 }

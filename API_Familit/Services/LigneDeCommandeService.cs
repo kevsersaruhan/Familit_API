@@ -41,5 +41,9 @@ namespace API_Familit.Services
     {
      return _repo.GetByCommandeId(idCommande).Select(e => e.ToAPI());
     }
+    public IEnumerable<LigneDeCommande_API> GetByProductId(int idProduct)
+    {
+      return _repo.GetByProductId(idProduct).Select(e => e.ToAPI());
+    }
   }
 }

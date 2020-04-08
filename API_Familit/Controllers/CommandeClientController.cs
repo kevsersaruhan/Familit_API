@@ -44,6 +44,12 @@ namespace API_Familit.Controllers
     {
       _service.Update(id, entity);
     }
+    [AcceptVerbs("GET")]
+    [Route("CommandeClient/{id}/GetCommandeClient")]
+    public IEnumerable<CommandeClient_API> GetCommandeClient(int idclient)
+    {
+      return _service.GetCommandeClient(idclient);
+    }
 
   }
 }
