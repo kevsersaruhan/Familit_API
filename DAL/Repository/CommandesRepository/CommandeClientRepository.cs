@@ -17,6 +17,8 @@ namespace DAL.Repository.CommandesRepository
   public class CommandeClientRepository : IRepository<int, CommandeClients>
   {
     private string _constring = ConfigurationManager.ConnectionStrings["BDD_Familit"].ConnectionString;
+
+    //Ok
     public void Add(CommandeClients entity)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -36,7 +38,7 @@ namespace DAL.Repository.CommandesRepository
           command.Parameters.AddWithValue("@TypeDecommande", entity.TypeDeCommande);
           command.Parameters.AddWithValue("@ClientId", entity.ClientID);
           command.Parameters.AddWithValue("@PersonnelId", entity.VendeurID);
-          command.Parameters.AddWithValue("@ShowroomId", entity.Showroom.ID);
+          command.Parameters.AddWithValue("@ShowroomId", entity.ShowroomID);
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
@@ -46,6 +48,7 @@ namespace DAL.Repository.CommandesRepository
       }
     }
 
+    //Ok
     public void Delete(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -64,6 +67,7 @@ namespace DAL.Repository.CommandesRepository
       }
     }
 
+    //Ok
     public IEnumerable<CommandeClients> Get()
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -89,26 +93,12 @@ namespace DAL.Repository.CommandesRepository
                 Solde = (double)reader["Solde"],
                 MoyenDePaiement = (string)reader["MoyenDePaiement"],
                 Statut = (string)reader["Statut"],
-                DateDeLivraison = (DateTime)reader["DateDeLivraison"],
-                TypeDeCommande = (string)reader["TypeDeCommande"],
-                Livraison = (bool)reader["Livraison"],
-                Showroom = new Showrooms
-                {
-                  ID = (int)reader["IDShowroom"],
-                  Nom = (string)reader["Nom"],
-                  NumBCE = (string)reader["NumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["IsActif"]
-                },
-                ShowroomID = (int)reader["ComShowroomID"],
-                ClientID = (int)reader["ClientId"],
-                VendeurID = (int)reader["PersonnelId"]
+                DateDeLivraison = (reader["DateDeLivraison"] == DBNull.Value) ? null : (DateTime?)reader["DateDeLivraison"],
+                TypeDeCommande=(string)reader["TypeDeCommande"],
+                Livraison= (reader["Livraison"] == DBNull.Value) ? null : (bool?)reader["Livraison"],
+                ShowroomID = (reader["ComShowroom"] == DBNull.Value) ? null : (int?)reader["ComShowroom"],
+                ClientID =(int)reader["ClientId"],
+                VendeurID= (reader["PersonnelId"] == DBNull.Value) ? null : (int?)reader["PersonnelId"]
               };
             }
           }
@@ -116,6 +106,7 @@ namespace DAL.Repository.CommandesRepository
       }
     }
 
+    //Ok
     public CommandeClients Get(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -133,7 +124,7 @@ namespace DAL.Repository.CommandesRepository
           {
             if (reader.Read())
             {
-              return new CommandeClients()
+             return new CommandeClients()
               {
                 ID = (int)reader["Id"],
                 DateDeCommande = (DateTime)reader["DateCommande"],
@@ -142,27 +133,13 @@ namespace DAL.Repository.CommandesRepository
                 Solde = (double)reader["Solde"],
                 MoyenDePaiement = (string)reader["MoyenDePaiement"],
                 Statut = (string)reader["Statut"],
-                DateDeLivraison = (DateTime)reader["DateDeLivraison"],
+               DateDeLivraison = (reader["DateDeLivraison"] == DBNull.Value) ? null : (DateTime?)reader["DateDeLivraison"],
                 TypeDeCommande = (string)reader["TypeDeCommande"],
-                Livraison = (bool)reader["Livraison"],
-                Showroom = new Showrooms
-                {
-                  ID = (int)reader["IDShowroom"],
-                  Nom = (string)reader["Nom"],
-                  NumBCE = (string)reader["NumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["IsActif"]
-                },
-                ShowroomID = (int)reader["ComShowroomID"],
-                ClientID = (int)reader["ClientId"],
-                VendeurID = (int)reader["PersonnelId"]
-              };
+               Livraison = (reader["Livraison"] == DBNull.Value) ? null : (bool?)reader["Livraison"],
+               ShowroomID = (reader["ComShowroom"] == DBNull.Value) ? null : (int?)reader["ComShowroom"],
+               ClientID = (int)reader["ClientId"],
+               VendeurID = (reader["PersonnelId"] == DBNull.Value) ? null : (int?)reader["PersonnelId"]
+             };
             }
             else
             {
@@ -172,7 +149,9 @@ namespace DAL.Repository.CommandesRepository
         }
       }
     }
-    public void Update(int id, CommandeClients entity)
+
+    //Ok
+    public void Update(CommandeClients entity)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
       {
@@ -191,8 +170,7 @@ namespace DAL.Repository.CommandesRepository
           command.Parameters.AddWithValue("@TypeDecommande", entity.TypeDeCommande);
           command.Parameters.AddWithValue("@ClientId", entity.ClientID);
           command.Parameters.AddWithValue("@PersonnelId", entity.VendeurID);
-          command.Parameters.AddWithValue("@ShowroomId", entity.Showroom.ID);
-          command.Parameters.AddWithValue("@id", id);
+          command.Parameters.AddWithValue("@id", entity.ID);
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
@@ -202,6 +180,7 @@ namespace DAL.Repository.CommandesRepository
       }
     }
 
+    //Ok
     public IEnumerable<CommandeClients> GetCommandeClient(int idclient)
     {
       List<CommandeClients> ListeCommandeClient = new List<CommandeClients>();
@@ -229,26 +208,12 @@ namespace DAL.Repository.CommandesRepository
                 Solde = (double)reader["Solde"],
                 MoyenDePaiement = (string)reader["MoyenDePaiement"],
                 Statut = (string)reader["Statut"],
-                DateDeLivraison = (DateTime)reader["DateDeLivraison"],
+                DateDeLivraison = (reader["DateDeLivraison"] == DBNull.Value) ? null : (DateTime?)reader["DateDeLivraison"],
                 TypeDeCommande = (string)reader["TypeDeCommande"],
-                Livraison = (bool)reader["Livraison"],
-                Showroom = new Showrooms
-                {
-                  ID = (int)reader["IDShowroom"],
-                  Nom = (string)reader["Nom"],
-                  NumBCE = (string)reader["NumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["IsActif"]
-                },
-                ShowroomID = (int)reader["ComShowroomID"],
+                Livraison = (reader["Livraison"] == DBNull.Value) ? null : (bool?)reader["Livraison"],
+                ShowroomID = (reader["ComShowroom"] == DBNull.Value) ? null : (int?)reader["ComShowroom"],
                 ClientID = (int)reader["ClientId"],
-                VendeurID = (int)reader["PersonnelId"]
+                VendeurID = (reader["PersonnelId"] == DBNull.Value) ? null : (int?)reader["PersonnelId"]
               };
             }
           }

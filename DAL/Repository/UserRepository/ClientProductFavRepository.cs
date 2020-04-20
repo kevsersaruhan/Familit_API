@@ -13,6 +13,7 @@ namespace DAL.Repository.UserRepository
   public class ClientProductFavRepository : IClientProductFavRepository
   {
     private string _constring = ConfigurationManager.ConnectionStrings["BDD_Familit"].ConnectionString;
+    //Ok
     public void AddProductToFav(int idProduct, int idClient)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -32,6 +33,7 @@ namespace DAL.Repository.UserRepository
       }
     }
 
+    //Ok
     public void DeleteProductFav(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))

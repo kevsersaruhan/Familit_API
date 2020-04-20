@@ -1,22 +1,17 @@
 using DAL.Model.Product;
-using DAL.Model.User;
-using DAL.Repository.UserRepository;
 using DAL.Utils.ProductUtils;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repository.ProductsRepository
 {
-  public class ProductRepository : IProductRepository<int,Products>
+  public class ProductRepository : IProductRepository<int, Products>
   {
-
     private string _constring = ConfigurationManager.ConnectionStrings["BDD_Familit"].ConnectionString;
+   
+    //Ok
     public void Activer(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -34,6 +29,8 @@ namespace DAL.Repository.ProductsRepository
         }
       }
     }
+
+    //Ok
     public void Add(Products entity)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -59,6 +56,8 @@ namespace DAL.Repository.ProductsRepository
         }
       }
     }
+
+    //Ok
     public void Delete(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -76,6 +75,8 @@ namespace DAL.Repository.ProductsRepository
         }
       }
     }
+
+    //Ok
     public void Desactiver(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -94,6 +95,7 @@ namespace DAL.Repository.ProductsRepository
       }
     }
 
+    //Ok
     public IEnumerable<Products> Get()
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -110,8 +112,7 @@ namespace DAL.Repository.ProductsRepository
           {
             while (reader.Read())
             {
-              yield return new Products()
-              {
+              yield return new Products() {
                 ID = (int)reader["ProductID"],
                 Nom = (string)reader["Nom"],
                 Prix = (double)reader["Prix"],
@@ -121,30 +122,6 @@ namespace DAL.Repository.ProductsRepository
                 Details = (string)reader["Details"],
                 CatId = (int)reader["CategorieId"],
                 ClientId = (int)reader["ClientId"],
-                Fournisseur = new Client
-                {
-                  ID = (int)reader["FournisseurID"],
-                  Nom = (string)reader["FournisseurNom"],
-                  Prenom = (string)reader["Prenom"],
-                  Login = (string)reader["Login"],
-                  NumBCE = (string)reader["NumBCE"],
-                  EstFournisseur = (bool)reader["EstFournisseur"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ClientIsActif"]
-                },
-                Categorie = new Categories
-                {
-                  ID = (int)reader["CatID"],
-                  Nom = (string)reader["CatNom"],
-                  Details = (string)reader["CatDetails"],
-                  IsActif = (bool)reader["CatIsActif"]
-                },
                 IsActif = (bool)reader["IsActif"]
               };
             }
@@ -153,6 +130,7 @@ namespace DAL.Repository.ProductsRepository
       }
     }
 
+    //Ok
     public Products Get(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -172,7 +150,7 @@ namespace DAL.Repository.ProductsRepository
             {
               return new Products()
               {
-                ID = (int)reader["ProductID"],
+                ID = (int)reader["Id"],
                 Nom = (string)reader["Nom"],
                 Prix = (double)reader["Prix"],
                 PrixDAchatTHTVA = (double)reader["PrixDAchatHTVA"],
@@ -181,30 +159,6 @@ namespace DAL.Repository.ProductsRepository
                 Details = (string)reader["Details"],
                 CatId = (int)reader["CategorieId"],
                 ClientId = (int)reader["ClientId"],
-                Fournisseur = new Client
-                {
-                  ID = (int)reader["FournisseurID"],
-                  Nom = (string)reader["FournisseurNom"],
-                  Prenom = (string)reader["Prenom"],
-                  Login = (string)reader["Login"],
-                  NumBCE = (string)reader["NumBCE"],
-                  EstFournisseur = (bool)reader["EstFournisseur"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ClientIsActif"]
-                },
-                Categorie = new Categories
-                {
-                  ID = (int)reader["CatID"],
-                  Nom = (string)reader["CatNom"],
-                  Details = (string)reader["CatDetails"],
-                  IsActif = (bool)reader["CatIsActif"]
-                },
                 IsActif = (bool)reader["IsActif"]
               };
             }
@@ -217,6 +171,7 @@ namespace DAL.Repository.ProductsRepository
       }
     }
 
+    //Ok
     public IEnumerable<Products> GetProductByFournisseur(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -245,30 +200,6 @@ namespace DAL.Repository.ProductsRepository
                 Details = (string)reader["Details"],
                 CatId = (int)reader["CategorieId"],
                 ClientId = (int)reader["ClientId"],
-                Fournisseur = new Client
-                {
-                  ID = (int)reader["FournisseurID"],
-                  Nom = (string)reader["FournisseurNom"],
-                  Prenom = (string)reader["Prenom"],
-                  Login = (string)reader["Login"],
-                  NumBCE = (string)reader["NumBCE"],
-                  EstFournisseur = (bool)reader["EstFournisseur"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ClientIsActif"]
-                },
-                Categorie = new Categories
-                {
-                  ID = (int)reader["CatID"],
-                  Nom = (string)reader["CatNom"],
-                  Details = (string)reader["CatDetails"],
-                  IsActif = (bool)reader["CatIsActif"]
-                },
                 IsActif = (bool)reader["IsActif"]
               };
             }
@@ -277,6 +208,7 @@ namespace DAL.Repository.ProductsRepository
       }
     }
 
+    //Ok
     public IEnumerable<Products> GetProductByName(string s)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -305,30 +237,6 @@ namespace DAL.Repository.ProductsRepository
                 Details = (string)reader["Details"],
                 CatId = (int)reader["CategorieId"],
                 ClientId = (int)reader["ClientId"],
-                Fournisseur = new Client
-                {
-                  ID = (int)reader["FournisseurID"],
-                  Nom = (string)reader["FournisseurNom"],
-                  Prenom = (string)reader["Prenom"],
-                  Login = (string)reader["Login"],
-                  NumBCE = (string)reader["NumBCE"],
-                  EstFournisseur = (bool)reader["EstFournisseur"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ClientIsActif"]
-                },
-                Categorie = new Categories
-                {
-                  ID = (int)reader["CatID"],
-                  Nom = (string)reader["CatNom"],
-                  Details = (string)reader["CatDetails"],
-                  IsActif = (bool)reader["CatIsActif"]
-                },
                 IsActif = (bool)reader["IsActif"]
               };
             }
@@ -337,16 +245,18 @@ namespace DAL.Repository.ProductsRepository
       }
     }
 
+    //Ok
     public IEnumerable<Products> GetProductFav(int idclient)
     {
 
       using (SqlConnection connection = new SqlConnection(_constring))
       {
+        List<Products> ListeProduct = new List<Products>();
         using (SqlCommand command = connection.CreateCommand())
         {
           command.CommandType = CommandType.StoredProcedure;
           command.CommandText = "SP_Client_Product_Fav";
-          command.Parameters.AddWithValue("@id", idclient);
+          command.Parameters.AddWithValue("@idclient", idclient);
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
@@ -355,112 +265,45 @@ namespace DAL.Repository.ProductsRepository
           {
             while (reader.Read())
             {
-              yield return new Products()
-              {
-                ID = (int)reader["ProductID"],
-                Nom = (string)reader["Nom"],
-                Prix = (double)reader["Prix"],
-                PrixDAchatTHTVA = (double)reader["PrixDAchatHTVA"],
-                TVA = (double)reader["TVA"],
-                NbPiece = (int)reader["NbPiece"],
-                Details = (string)reader["Details"],
-                CatId = (int)reader["CategorieId"],
-                ClientId = (int)reader["ClientId"],
-                Fournisseur = new Client
-                {
-                  ID = (int)reader["FournisseurID"],
-                  Nom = (string)reader["FournisseurNom"],
-                  Prenom = (string)reader["Prenom"],
-                  Login = (string)reader["Login"],
-                  NumBCE = (string)reader["NumBCE"],
-                  EstFournisseur = (bool)reader["EstFournisseur"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ClientIsActif"]
-                },
-                Categorie = new Categories
-                {
-                  ID = (int)reader["CatID"],
-                  Nom = (string)reader["CatNom"],
-                  Details = (string)reader["CatDetails"],
-                  IsActif = (bool)reader["CatIsActif"]
-                },
-                IsActif = (bool)reader["IsActif"]
-              };
+              ListeProduct.Add(Get((int)reader["ProductId"]));
             }
-
+            return ListeProduct;
           }
+
         }
       }
     }
 
+    //Ok
     public IEnumerable<Products> GetProductListByCaracteristique(int idcaract)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
       {
+        List<Products> ListeProduct = new List<Products>();
         using (SqlCommand command = connection.CreateCommand())
         {
-
           command.CommandType = CommandType.StoredProcedure;
           command.CommandText = "SP_Product_Caracteristique_GetByCaracteristique";
-          command.Parameters.AddWithValue("@idcaract", idcaract);
+          command.Parameters.AddWithValue("@idcarcat", idcaract);
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
           }
           using (SqlDataReader reader = command.ExecuteReader())
           {
-            while (reader.Read())
-            {
-              yield return new Products()
+            
+              while (reader.Read())
               {
-                ID = (int)reader["ProductID"],
-                Nom = (string)reader["Nom"],
-                Prix = (double)reader["Prix"],
-                PrixDAchatTHTVA = (double)reader["PrixDAchatHTVA"],
-                TVA = (double)reader["TVA"],
-                NbPiece = (int)reader["NbPiece"],
-                Details = (string)reader["Details"],
-                CatId = (int)reader["CategorieId"],
-                ClientId = (int)reader["ClientId"],
-                Fournisseur = new Client
-                {
-                  ID = (int)reader["FournisseurID"],
-                  Nom = (string)reader["FournisseurNom"],
-                  Prenom = (string)reader["Prenom"],
-                  Login = (string)reader["Login"],
-                  NumBCE = (string)reader["NumBCE"],
-                  EstFournisseur = (bool)reader["EstFournisseur"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ClientIsActif"]
-                },
-                Categorie = new Categories
-                {
-                  ID = (int)reader["CatID"],
-                  Nom = (string)reader["CatNom"],
-                  Details = (string)reader["CatDetails"],
-                  IsActif = (bool)reader["CatIsActif"]
-                },
-                IsActif = (bool)reader["IsActif"]
-              };
-            }
+                ListeProduct.Add(Get((int)reader["ProductId"]));
+              }
+              return ListeProduct;
           }
         }
       }
     }
 
-    public void Update(int id, Products entity)
+    //Ok
+    public void Update(Products entity)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
       {
@@ -476,7 +319,7 @@ namespace DAL.Repository.ProductsRepository
           command.Parameters.AddWithValue("@details", entity.Details);
           command.Parameters.AddWithValue("@catId", entity.CatId);
           command.Parameters.AddWithValue("@clientId", entity.ClientId);
-          command.Parameters.AddWithValue("@id", id);
+          command.Parameters.AddWithValue("@id", entity.ID);
           command.Parameters.AddWithValue("@isActif", entity.IsActif);
           if (connection.State != ConnectionState.Open)
           {

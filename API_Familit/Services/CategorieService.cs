@@ -48,9 +48,9 @@ namespace API_Familit.Services
       return _repo.GetCategorieByName(s).Select(e => e.ToAPI());
     }
 
-    public void Update(int id, Categorie_API entity)
+    public void Update(Categorie_API entity)
     {
-      _repo.Update(id, entity.ToDAL());
+      _repo.Update(entity.ToDAL());
     }
   }
 }

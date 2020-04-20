@@ -1,19 +1,16 @@
 using API_Familit.Models.Products_API;
 using API_Familit.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace API_Familit.Controllers
 {
-    public class CategorieController : ApiController
+  [RoutePrefix("api")]
+  public class CategorieController : ApiController
     {
     private CategorieService _service = new CategorieService();
     [AcceptVerbs("PUT")]
-    [Route("Secure/Caracteristique/{id}/Activer")]
+    [Route("Secure/Categorie/Activer/{id}")]
     public void Activer(int id)
     {
       _service.Activer(id);
@@ -25,40 +22,40 @@ namespace API_Familit.Controllers
       _service.Add(entity);
     }
     [AcceptVerbs("DELETE")]
-    [Route("Secure/Caracteristique/{id}")]
+    [Route("Secure/Categorie/{id}")]
     public void Delete(int id)
     {
       _service.Delete(id);
     }
     [AcceptVerbs("PUT", "POST")]
-    [Route("Secure/Caracteristique/{id}/Desactiver")]
+    [Route("Secure/Categorie/Desactiver/{id}")]
     public void Desactiver(int id)
     {
       _service.Desactiver(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Caracteristique")]
+    [Route("Categorie")]
     public IEnumerable<Categorie_API> Get()
     {
       return _service.Get();
     }
     [AcceptVerbs("GET")]
-    [Route("Caracteristique/{id}")]
+    [Route("Categorie/{id}")]
     public Categorie_API Get(int id)
     {
       return _service.Get(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Caracteristique/{name}/GeteByName")]
-    public IEnumerable<Categorie_API> GetCategorieByName(string s)
+    [Route("Categorie/GetByName/{name}")]
+    public IEnumerable<Categorie_API> GetCategorieByName(string name)
     {
-      return _service.GetCategorieByName(s);
+      return _service.GetCategorieByName(name);
     }
     [AcceptVerbs("PUT")]
-    [Route("Secure/Caracteristique/{id}")]
-    public void Update(int id, Categorie_API entity)
+    [Route("Secure/Categorie/{id}")]
+    public void Update(Categorie_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
   }
 }

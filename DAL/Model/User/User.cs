@@ -19,8 +19,9 @@ namespace DAL.Model.User
     public int AdCP { get; set; }
     public string AdVille { get; set; }
     public string AdPays { get; set; }
-    public int NumTel { get; set; }
+    public int? NumTel { get; set; }
     public string Email { get; set; }
     public bool IsActif { get; set; }
+    public int AdresseID { get; set; }
   }
 }

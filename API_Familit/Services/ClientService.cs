@@ -28,9 +28,9 @@ namespace API_Familit.Services
       _repo.ChangePassword(id, password);
     }
 
-    public void CheckClient(int id, string login, string password)
+    public int CheckClient(string login, string password)
     {
-      _repo.CheckClient(id, login, password);
+      return _repo.CheckClient(login, password);
     }
 
     public void Delete(int id)
@@ -58,9 +58,15 @@ namespace API_Familit.Services
       return _repo.GetByName(name).Select(e => e.ToAPI());
     }
 
-    public void Update(int id, Client_API entity)
+    public void Update(Client_API entity)
     {
-      _repo.Update(id, entity.ToDAL());
+      _repo.Update(entity.ToDAL());
     }
+
+    public IEnumerable<Client_API> GetFournisseur()
+    {
+      return _repo.GetFournisseur().Select(e => e.ToAPI());
+    }
+
   }
 }

@@ -11,9 +11,10 @@ namespace DAL.Utils.UserUtils
   public interface IClientRepository<TKey,T> : IRepository<TKey, T> where T : class
   {
     void ChangePassword(TKey id, string password);
-    void CheckClient(TKey id, string login, string password);
+    int CheckClient(string login, string password);
     IEnumerable<T> GetByName(string name);
     void Desactiver(TKey id);
     void Activer(TKey id);
+    IEnumerable<T> GetFournisseur();
   }
 }

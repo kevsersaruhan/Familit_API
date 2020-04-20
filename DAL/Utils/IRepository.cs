@@ -11,7 +11,7 @@ namespace DAL.Utils
     IEnumerable<T> Get();
     T Get(TKey id);
     void Add(T entity);
-    void Update(TKey id, T entity);
+    void Update(T entity);
     void Delete(TKey id);
 
   }

@@ -7,7 +7,7 @@ namespace API_Familit.Models.Commande_API
 {
   public class CommandeClient_API : Commandes_API
   {
-    public int VendeurID { get; set; }
+    public int? VendeurID { get; set; }
     public string MoyenDePaiement { get; set; }
     public string Statut { get; set; }
     public bool? Livraison { get; set; }

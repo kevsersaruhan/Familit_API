@@ -1,3 +1,4 @@
+using API_Familit.Models.Connexion;
 using API_Familit.Models.User_API;
 using API_Familit.Services;
 using System;
@@ -22,7 +23,7 @@ namespace API_Familit.Controllers
     }
 
     [AcceptVerbs("PUT")]
-    [Route("Secure/Personnel/{id}/Activer")]
+    [Route("Secure/Personnel/Activer/{id}")]
     public void Activer(int id)
     {
       _service.Activer(id);
@@ -36,17 +37,18 @@ namespace API_Familit.Controllers
     }
 
     [AcceptVerbs("PUT")]
-    [Route("Secure/Personnel/{id}/ChangePassword/{s:alpha}")]
-    public void ChangePassword(int id, string s)
+    [Route("Secure/Personnel/ChangePassword/{id}")]
+    public void ChangePassword(int id, ChangePassword s)
     {
-      _service.ChangePassword(id, s);
+      
+      _service.ChangePassword(id, s.Password);
     }
 
-    [AcceptVerbs("POST")]
-    [Route("Secure/Personnel/{id:int}/{login:alpha}/{password:alpha}")]
-    public void CheckPersonnel(int id, string login, string password)
+    [AcceptVerbs("POST","PUT")]
+    [Route("Secure/Personnel/Check")]
+    public int CheckPersonnel(LoginModel model)
     {
-      _service.CheckPersonnel(id, login, password);
+      return _service.CheckPersonnel(model.Login,model.MDP);
     }
     [AcceptVerbs("DELETE")]
     [Route("Secure/Personnel/{id}")]
@@ -55,32 +57,32 @@ namespace API_Familit.Controllers
       _service.Delete(id);
     }
     [AcceptVerbs("PUT","POST")]
-    [Route("Secure/Personnel/{id}/Desactiver")]
+    [Route("Secure/Personnel/Desactiver/{id}")]
     public void Desactiver(int id)
     {
       _service.Desactiver(id);
     }
     [AcceptVerbs("PUT","POST")]
-    [Route("Secure/Personnel/{id}/DoAdmin")]
+    [Route("Secure/Personnel/DoAdmin/{id}")]
     public void DoAdmin(int id)
     {
       _service.DoAdmin(id);
     }
 
     [AcceptVerbs("GET")]
-    [Route("Personnel")]
+    [Route("Personnel/{id}")]
     public Personnel_API Get(int id)
     {
       return _service.Get(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Personnel/{id}/GetByShowroom")] //Comment dissocier ????
-    public IEnumerable<Personnel_API> GetPersonnelByShowroom(int idShowroom)
+    [Route("Personnel/GetByShowroom/{id}")] 
+    public IEnumerable<Personnel_API> GetPersonnelByShowroom(int id)
     {
-      return _service.GetPersonnelByShowroom(idShowroom);
+      return _service.GetPersonnelByShowroom(id);
     }
     [AcceptVerbs("PUT","POST")]
-    [Route("Secure/Personnel/{id}/UnsetAdmin")]
+    [Route("Secure/Personnel/UnsetAdmin/{id}")]
     public void UnsetAdmin(int id)
     {
       _service.UnsetAdmin(id);
@@ -88,9 +90,9 @@ namespace API_Familit.Controllers
 
     [AcceptVerbs("PUT")]
     [Route("Secure/Personnel/{id}")]
-    public void Update(int id, Personnel_API entity)
+    public void Update( Personnel_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
   }
 }

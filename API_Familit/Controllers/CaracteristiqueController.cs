@@ -9,7 +9,8 @@ using System.Web.Http;
 
 namespace API_Familit.Controllers
 {
-    public class CaracteristiqueController : ApiController
+  [RoutePrefix("api")]
+  public class CaracteristiqueController : ApiController
     {
        private CaracteristiqueService _service = new CaracteristiqueService();
     [AcceptVerbs("POST")]
@@ -37,22 +38,22 @@ namespace API_Familit.Controllers
       return _service.Get(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Caracteristique/{id}/GetByCategorie")]
-    public IEnumerable<Caracteristique_API> GetCaracteristiqueByCategorie(int idcat)
+    [Route("Caracteristique/GetByCategorie/{id}")]
+    public IEnumerable<Caracteristique_API> GetCaracteristiqueByCategorie(int id)
     {
-      return _service.GetCaracteristiqueByCategorie(idcat);
+      return _service.GetCaracteristiqueByCategorie(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Caracteristique/{id}/GetByProduct")]
-    public IEnumerable<Caracteristique_API> GetCaracteristiqueByProduct(int idproduct)
+    [Route("Caracteristique/GetByProduct/{id}")]
+    public IEnumerable<Caracteristique_API> GetCaracteristiqueByProduct(int id)
     {
-      return _service.GetCaracteristiqueByProduct(idproduct);
+      return _service.GetCaracteristiqueByProduct(id);
     }
     [AcceptVerbs("PUT")]
     [Route("Secure/Caracteristique/{id}")]
-    public void Update(int id, Caracteristique_API entity)
+    public void Update(Caracteristique_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
   }
 }

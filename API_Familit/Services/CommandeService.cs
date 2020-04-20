@@ -10,9 +10,9 @@ using System.Web;
 
 namespace API_Familit.Services
 {
-  public class CommandeService : IRepository<int, Commandes_API>
+  public class CommandeService : ICommandeRepository<int, Commandes_API>
   {
-    private IRepository<int, Commandes> _repo = new CommandeRepository();
+    private ICommandeRepository<int, Commandes> _repo = new CommandeRepository();
     public void Add(Commandes_API entity)
     {
       _repo.Add(entity.ToDAL());
@@ -33,9 +33,15 @@ namespace API_Familit.Services
       return _repo.Get(id).ToAPI();
     }
 
-    public void Update(int id, Commandes_API entity)
+    public IEnumerable<Commandes_API> GetCommandeClient(int idclient)
     {
-      _repo.Update(id, entity.ToDAL());
+      return _repo.GetCommandeClient(idclient).Select(e => e.ToAPI());
     }
+
+    public void Update(Commandes_API entity)
+    {
+      _repo.Update(entity.ToDAL());
+    }
+ 
   }
 }

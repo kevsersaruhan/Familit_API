@@ -11,9 +11,6 @@ namespace DAL.Model.Product
     public int Id { get; set; }
     public string Nom { get; set; }
     public string Details { get; set; }
-    public Categories Categorie { get; set; }
-    public IEnumerable<Products> ListeProduits { get; set; }
-    public int CatId { get; set; }
-
+    public int? CatId { get; set; }
   }
 }

@@ -39,9 +39,9 @@ namespace API_Familit.Controllers
     }
     [AcceptVerbs("PUT")]
     [Route("Secure/Commande/{id}")]
-    public void Update(int id, Commandes_API entity)
+    public void Update(Commandes_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
   }
 }

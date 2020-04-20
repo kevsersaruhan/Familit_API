@@ -10,7 +10,7 @@ namespace DAL.Utils.UserUtils
   public interface IPersonnelRepository<TKey, T>: IRepository<TKey, T> where T: class
   {
     void ChangePassword(TKey id, string s);
-    void CheckPersonnel(TKey id, string login, string password);
+    int CheckPersonnel(string login, string password);
     void DoAdmin(TKey id);
     void UnsetAdmin(TKey id);
     IEnumerable<T> GetPersonnelByShowroom(int idShowroom);

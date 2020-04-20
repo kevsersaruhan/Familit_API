@@ -12,10 +12,9 @@ namespace API_Familit.Models.User_API
     public string Fonction { get; set; }
     public bool IsAdmin { get; set; }
     public DateTime HireDate { get; set; }
-    public int NbJoursAbsence { get; set; }
-    public int NbJourVacance { get; set; }
+    public int? NbJoursAbsence { get; set; }
+    public int? NbJourVacance { get; set; }
     public double Salaire { get; set; }
-    public Showroom_API LieuDeTravail { get; set; }
     public int ShowroomId { get; set; }
 
 

@@ -20,9 +20,10 @@ namespace API_Familit.Models.Etablissement_API
     public int AdCP { get; set; }
     public string AdVille { get; set; }
     public string AdPays { get; set; }
-    public int NumTel { get; set; }
+    public int? NumTel { get; set; }
     public string Email { get; set; }
     public IEnumerable<Personnel_API> PersonnelList { get; set; }
     public bool IsActif { get; set; }
+    public int AdresseId { get; set; }
   }
 }

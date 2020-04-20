@@ -1,3 +1,4 @@
+using API_Familit.Models.Connexion;
 using API_Familit.Models.User_API;
 using API_Familit.Services;
 using System;
@@ -15,7 +16,7 @@ namespace API_Familit.Controllers
     private ClientService _service = new ClientService();
     private ClientProductService _servicefav = new ClientProductService();
     [AcceptVerbs("PUT")]
-    [Route("Secure/Client/{id}/Activer")]
+    [Route("Secure/Client/Activer/{id}")]
     public void Activer(int id)
     {
       _service.Activer(id);
@@ -27,16 +28,16 @@ namespace API_Familit.Controllers
       _service.Add(entity);
     }
     [AcceptVerbs("PUT")]
-    [Route("Secure/Client/{id}")]
-    public void ChangePassword(int id, string password)
+    [Route("Secure/Client/ChangePassword/{id}")]
+    public void ChangePassword(int id, ChangePassword password)
     {
-      _service.ChangePassword(id, password);
+      _service.ChangePassword(id, password.Password);
     }
     [AcceptVerbs("POST")]
-    [Route("Secure/Client/{id:int}/{login:alpha}/{password:alpha}")]
-    public void CheckClient(int id, string login, string password)
+    [Route("Secure/Client/Check")]
+    public int CheckClient(LoginModel model)
     {
-      _service.CheckClient(id, login, password);
+      return _service.CheckClient(model.Login, model.MDP);
     }
     [AcceptVerbs("DELETE")]
     [Route("Secure/Client/{id}")]
@@ -45,7 +46,7 @@ namespace API_Familit.Controllers
       _service.Delete(id);
     }
     [AcceptVerbs("PUT", "POST")]
-    [Route("Secure/Client/{id}/Desactiver")]
+    [Route("Secure/Client/Desactiver/{id}")]
     public void Desactiver(int id)
     {
       _service.Desactiver(id);
@@ -63,25 +64,33 @@ namespace API_Familit.Controllers
       return _service.Get(id);
     }
     [AcceptVerbs("GET")]
-    [Route("Client/{name:alpha}/GetByName")]
+    [Route("Client/GetByName/{name:alpha}")]
     public IEnumerable<Client_API> GetByName(string name)
     {
       return _service.GetByName(name);
     }
+
+    [AcceptVerbs("GET")]
+    [Route("Client/GetFournisseur")]
+    public IEnumerable<Client_API> GetFournisseur()
+    {
+      return _service.GetFournisseur();
+    }
+
     [AcceptVerbs("PUT")]
     [Route("Secure/Client/{id}")]
-    public void Update(int id, Client_API entity)
+    public void Update( Client_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
     [AcceptVerbs("PUT")]
-    [Route("Secure/Client/{idproduct}/{idclient}/AddToFav")]
+    [Route("Secure/Client/AddToFav/{idProduct}/{idClient}")]
     public void AddProductToFav(int idProduct, int idClient)
     {
       _servicefav.AddProductToFav(idProduct, idClient);
     }
     [AcceptVerbs("PUT")]
-    [Route("Secure/Client/{id}/RemoveFromFav")]
+    [Route("Secure/Client/RemoveFromFav/{id}")]
     public void DeleteProductFav(int id)
     {
       _servicefav.DeleteProductFav(id);

@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace API_Familit.Controllers
 {
-  [RoutePrefix("api'")]
+  [RoutePrefix("api")]
     public class LigneDeCommandeController : ApiController
     {
       private LigneDeCommandeService _service = new LigneDeCommandeService();
@@ -40,9 +40,9 @@ namespace API_Familit.Controllers
     }
     [AcceptVerbs("PUT")]
     [Route("Secure/LigneDeCommande/{id}")]
-    public void Update(int id, LigneDeCommande_API entity)
+    public void Update(LigneDeCommande_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
     [AcceptVerbs("GET")]
     [Route("LigneDeCommande/{id}/GetByCommande")]

@@ -28,9 +28,9 @@ namespace API_Familit.Services
      _repo.ChangePassword(id,s);
     }
 
-    public void CheckPersonnel(int id, string login, string password)
+    public int CheckPersonnel(string login, string password)
     {
-     _repo.CheckPersonnel(id,login,password);
+     return _repo.CheckPersonnel(login,password);
     }
 
     public void Delete(int id)
@@ -68,9 +68,9 @@ namespace API_Familit.Services
       _repo.UnsetAdmin(id);
     }
 
-    public void Update(int id, Personnel_API entity)
+    public void Update(Personnel_API entity)
     {
-      _repo.Update(id, entity.ToDAL());
+      _repo.Update(entity.ToDAL());
     }
   }
 }

@@ -40,9 +40,9 @@ namespace API_Familit.Controllers
     }
     [AcceptVerbs("PUT")]
     [Route("Secure/CommandeClient/{id}")]
-    public void Update(int id, CommandeClient_API entity)
+    public void Update( CommandeClient_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
     [AcceptVerbs("GET")]
     [Route("CommandeClient/{id}/GetCommandeClient")]

@@ -33,9 +33,9 @@ namespace API_Familit.Services
       return _repo.Get(id).ToAPI();
     }
 
-    public void Update(int id, LigneDeCommande_API entity)
+    public void Update(LigneDeCommande_API entity)
     {
-      _repo.Update(id, entity.ToDAL());
+      _repo.Update(entity.ToDAL());
     }
     public IEnumerable<LigneDeCommande_API> GetByCommandeId(int idCommande)
     {

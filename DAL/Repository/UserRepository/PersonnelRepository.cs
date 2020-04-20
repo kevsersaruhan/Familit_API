@@ -2,6 +2,7 @@
 using DAL.Model.Etablissement;
 using DAL.Model.User;
 using DAL.Repository.EtablissementRepository;
+using DAL.Repository.RepertoireRepository;
 using DAL.Utils.UserUtils;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,8 @@ namespace DAL.Repository.UserRepository
   public class PersonnelRepository : IPersonnelRepository<int, Personnel>
   {
     private string _constring = ConfigurationManager.ConnectionStrings["BDD_Familit"].ConnectionString;
-
+    private AdresseRepository _repoAdresse = new AdresseRepository();
+    // Ok
     public void Activer(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -35,8 +37,11 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
+
+    //Corrigé 
     public void Add(Personnel entity)
     {
+      int adresseId = _repoAdresse.AddAdresse(entity.AdRue, entity.AdNum, entity.AdCP, entity.AdVille, entity.AdPays, entity.Email, entity.NumTel);
       using (SqlConnection connection = new SqlConnection(_constring))
       {
         using (SqlCommand command = connection.CreateCommand())
@@ -46,22 +51,19 @@ namespace DAL.Repository.UserRepository
           command.Parameters.AddWithValue("@nom", entity.Nom);
           command.Parameters.AddWithValue("@Prenom", entity.Prenom);
           command.Parameters.AddWithValue("@dateDeNaissance", entity.DateDeNaissance);
-          command.Parameters.AddWithValue("@Login", entity.Login);
+          command.Parameters.AddWithValue("@login", entity.Login);
           command.Parameters.AddWithValue("@Password", entity.Password);
           command.Parameters.AddWithValue("@Function", entity.Fonction);
           command.Parameters.AddWithValue("@IsAdmin", entity.IsAdmin);
           command.Parameters.AddWithValue("@DateDengagement", entity.HireDate);
+          command.Parameters.AddWithValue("@Salaire", entity.Salaire);
           command.Parameters.AddWithValue("@NbJourAbsence", entity.NbJoursAbsence);
           command.Parameters.AddWithValue("@NbJourVacances", entity.NbJourVacance);
           command.Parameters.AddWithValue("@ShowroomId", entity.ShowroomId);
-          command.Parameters.AddWithValue("@adRue", entity.AdRue);
-          command.Parameters.AddWithValue("@adNum", entity.AdNum);
-          command.Parameters.AddWithValue("@adCp", entity.AdCP);
-          command.Parameters.AddWithValue("@adVille", entity.AdVille);
-          command.Parameters.AddWithValue("@adPays", entity.AdPays);
-          command.Parameters.AddWithValue("@email", entity.Email);
-          command.Parameters.AddWithValue("@numTel", entity.NumTel);
+          command.Parameters.AddWithValue("@AdresseId", adresseId);
           command.Parameters.AddWithValue("@isActif", entity.IsActif);
+ 
+
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
@@ -71,6 +73,8 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
+
+    //Ok
     public void ChangePassword(int id, string s)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -90,7 +94,9 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
-    public void CheckPersonnel(int id, string login, string password)
+
+    //A voir
+    public int CheckPersonnel(string login, string password)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
       {
@@ -100,16 +106,18 @@ namespace DAL.Repository.UserRepository
           command.CommandText = "SP_Personnel_Check";
           command.Parameters.AddWithValue("@login", login);
           command.Parameters.AddWithValue("@password", password);
-          command.Parameters.AddWithValue("@persoId", id);
+          command.Parameters.Add("@persoId", SqlDbType.Int).Direction = ParameterDirection.Output;
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
           }
           command.ExecuteNonQuery();
-
+          return Convert.ToInt32(command.Parameters["@persoId"].Value);
         }
       }
     }
+
+    //Ok
     public void Delete(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -127,6 +135,8 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
+
+    //Ok
     public void Desactiver(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -144,6 +154,8 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
+
+    //Ok
     public void DoAdmin(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -152,7 +164,7 @@ namespace DAL.Repository.UserRepository
         {
           command.CommandType = CommandType.StoredProcedure;
           command.CommandText = "SP_Personnel_DoAdmin";
-          command.Parameters.AddWithValue("@id", id);
+          command.Parameters.AddWithValue("@Id", id);
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
@@ -161,6 +173,8 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
+
+    //Ok
     public IEnumerable<Personnel> Get()
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -179,47 +193,35 @@ namespace DAL.Repository.UserRepository
             {
               yield return new Personnel()
               {
-                ID = (int)reader["PersonnelID"],
+                ID = (int)reader["personnelID"],
                 Nom = (string)reader["Nom"],
                 Prenom = (string)reader["Prenom"],
                 DateDeNaissance = (DateTime)reader["DateDeNaissance"],
-                HireDate = (DateTime)reader["DateDengagement"],
+                HireDate = (DateTime)reader["DateDEngagement"],
                 Fonction = (string)reader["Fonction"],
                 Login = (string)reader["Login"],
-                NbJoursAbsence = (int)reader["NbJourAbsence"],
-                NbJourVacance = (int)reader["NbJourVacances"],
+                AdresseID =(int)reader["PersoAdresseID"],
+                NbJoursAbsence = (reader["NbJourAbsence"] == DBNull.Value) ? null : (int?)reader["NbJourAbsence"],
+                NbJourVacance = (reader["NbJourVacances"] == DBNull.Value) ? null : (int?)reader["NbJourVacances"],
                 Salaire = (double)reader["Salaire"],
                 AdRue = (string)reader["PersonnelAdRue"],
                 AdNum = (string)reader["PersonnelAdNum"],
                 AdCP = (int)reader["PersonnelAdCp"],
                 AdVille = (string)reader["PersonnelAdVille"],
                 AdPays = (string)reader["PersonnelAdPays"],
-                NumTel = (int)reader["PersonnelNumTel"],
-                Email = (string)reader["PersonnelEmail"],
-                ShowroomId = (int)reader["ShowroomId"],
-                LieuDeTravail = new Showrooms
-                {
-                  ID = (int)reader["ShowroomID"],
-                  Nom = (string)reader["ShowroomName"],
-                  NumBCE = (string)reader["ShowroomNumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ShowroomIsActif"]
-
-                },
-                IsActif = (bool)reader["IsActif"],
-                IsAdmin = (bool)reader["IsAdmin"]
+                NumTel = (reader["PersonnelNumTel"] == DBNull.Value) ? null : (int?)reader["PersonnelNumTel"],
+                Email = (string)reader["PersoEmail"],
+                ShowroomId=(int)reader["ShowroomId"],
+                IsActif=(bool)reader["IsActif"],
+                IsAdmin=(bool)reader["IsAdmin"]
               };
             }
           }
         }
       }
     }
+
+    //Ok
     public Personnel Get(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -227,7 +229,7 @@ namespace DAL.Repository.UserRepository
         using (SqlCommand command = connection.CreateCommand())
         {
           command.CommandType = CommandType.StoredProcedure;
-          command.CommandText = "SP_GetByID";
+          command.CommandText = "SP_Personnel_GetByID";
           command.Parameters.AddWithValue("@id", id);
           if (connection.State != ConnectionState.Open)
           {
@@ -239,41 +241,28 @@ namespace DAL.Repository.UserRepository
             {
               return new Personnel()
               {
-                ID = (int)reader["Id"],
+                ID = (int)reader["personnelID"],
                 Nom = (string)reader["Nom"],
                 Prenom = (string)reader["Prenom"],
                 DateDeNaissance = (DateTime)reader["DateDeNaissance"],
-                HireDate = (DateTime)reader["DateDengagement"],
+                HireDate = (DateTime)reader["DateDEngagement"],
                 Fonction = (string)reader["Fonction"],
                 Login = (string)reader["Login"],
-                NbJoursAbsence = (int)reader["NbJourAbsence"],
-                NbJourVacance = (int)reader["NbJourVacances"],
+                AdresseID = (int)reader["PersoAdresseID"],
+                NbJoursAbsence = (reader["NbJourAbsence"] == DBNull.Value) ? null : (int?)reader["NbJourAbsence"],
+                NbJourVacance = (reader["NbJourVacances"] == DBNull.Value) ? null : (int?)reader["NbJourVacances"],
                 Salaire = (double)reader["Salaire"],
-                AdRue = (string)reader["AdRue"],
-                AdNum = (string)reader["AdNum"],
-                AdCP = (int)reader["AdCp"],
-                AdVille = (string)reader["AdVille"],
-                AdPays = (string)reader["AdPays"],
-                NumTel = (int)reader["NumTel"],
-                Email = (string)reader["EMail"],
+                AdRue = (string)reader["PersonnelAdRue"],
+                AdNum = (string)reader["PersonnelAdNum"],
+                AdCP = (int)reader["PersonnelAdCp"],
+                AdVille = (string)reader["PersonnelAdVille"],
+                AdPays = (string)reader["PersonnelAdPays"],
+                NumTel = (reader["PersonnelNumTel"] == DBNull.Value) ? null : (int?)reader["PersonnelNumTel"],
+                Email = (string)reader["PersoEmail"],
                 ShowroomId = (int)reader["ShowroomId"],
-                LieuDeTravail = new Showrooms
-                {
-                  ID = (int)reader["ShowroomID"],
-                  Nom = (string)reader["ShowroomName"],
-                  NumBCE = (string)reader["ShowroomNumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ShowroomIsActif"]
-
-                },
                 IsActif = (bool)reader["IsActif"],
                 IsAdmin = (bool)reader["IsAdmin"]
+         
               };
             }
             else
@@ -285,6 +274,8 @@ namespace DAL.Repository.UserRepository
       }
 
     }
+
+    //Ok
     public IEnumerable<Personnel> GetByName(string name)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -304,39 +295,25 @@ namespace DAL.Repository.UserRepository
             {
               yield return new Personnel()
               {
-                ID = (int)reader["Id"],
+                ID = (int)reader["personnelID"],
                 Nom = (string)reader["Nom"],
                 Prenom = (string)reader["Prenom"],
                 DateDeNaissance = (DateTime)reader["DateDeNaissance"],
-                HireDate = (DateTime)reader["DateDengagement"],
+                HireDate = (DateTime)reader["DateDEngagement"],
                 Fonction = (string)reader["Fonction"],
                 Login = (string)reader["Login"],
-                NbJoursAbsence = (int)reader["NbJourAbsence"],
-                NbJourVacance = (int)reader["NbJourVacances"],
+                AdresseID = (int)reader["PersoAdresseID"],
+                NbJoursAbsence = (reader["NbJourAbsence"] == DBNull.Value) ? null : (int?)reader["NbJourAbsence"],
+                NbJourVacance = (reader["NbJourVacances"] == DBNull.Value) ? null : (int?)reader["NbJourVacances"],
                 Salaire = (double)reader["Salaire"],
-                AdRue = (string)reader["AdRue"],
-                AdNum = (string)reader["AdNum"],
-                AdCP = (int)reader["AdCp"],
-                AdVille = (string)reader["AdVille"],
-                AdPays = (string)reader["AdPays"],
-                NumTel = (int)reader["NumTel"],
-                Email = (string)reader["EMail"],
+                AdRue = (string)reader["PersonnelAdRue"],
+                AdNum = (string)reader["PersonnelAdNum"],
+                AdCP = (int)reader["PersonnelAdCp"],
+                AdVille = (string)reader["PersonnelAdVille"],
+                AdPays = (string)reader["PersonnelAdPays"],
+                NumTel = (reader["PersonnelNumTel"] == DBNull.Value) ? null : (int?)reader["PersonnelNumTel"],
+                Email = (string)reader["PersoEmail"],
                 ShowroomId = (int)reader["ShowroomId"],
-                LieuDeTravail = new Showrooms
-                {
-                  ID = (int)reader["ShowroomID"],
-                  Nom = (string)reader["ShowroomName"],
-                  NumBCE = (string)reader["ShowroomNumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ShowroomIsActif"]
-
-                },
                 IsActif = (bool)reader["IsActif"],
                 IsAdmin = (bool)reader["IsAdmin"]
               };
@@ -345,6 +322,9 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
+
+    // Je ne remet pas les données du lieu de travail du personnel vu que c'est apd du showroom
+    // dans lequel il travail que je fais la recherche
     public IEnumerable<Personnel> GetPersonnelByShowroom(int idShowroom)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -364,47 +344,33 @@ namespace DAL.Repository.UserRepository
             {
               yield return new Personnel()
               {
-                ID = (int)reader["Id"],
+                ID = (int)reader["PersonnelID"],
                 Nom = (string)reader["Nom"],
                 Prenom = (string)reader["Prenom"],
                 DateDeNaissance = (DateTime)reader["DateDeNaissance"],
-                HireDate = (DateTime)reader["DateDengagement"],
+                HireDate = (DateTime)reader["DateDEngagement"],
                 Fonction = (string)reader["Fonction"],
-                Login = (string)reader["Login"],
-                NbJoursAbsence = (int)reader["NbJourAbsence"],
-                NbJourVacance = (int)reader["NbJourVacances"],
                 Salaire = (double)reader["Salaire"],
-                AdRue = (string)reader["AdRue"],
-                AdNum = (string)reader["AdNum"],
-                AdCP = (int)reader["AdCp"],
-                AdVille = (string)reader["AdVille"],
-                AdPays = (string)reader["AdPays"],
-                NumTel = (int)reader["NumTel"],
-                Email = (string)reader["EMail"],
-                ShowroomId = (int)reader["ShowroomId"],
-                LieuDeTravail = new Showrooms
-                {
-                  ID = (int)reader["ShowroomID"],
-                  Nom = (string)reader["ShowroomName"],
-                  NumBCE = (string)reader["ShowroomNumBCE"],
-                  AdRue = (string)reader["AdRue"],
-                  AdNum = (string)reader["AdNum"],
-                  AdCP = (int)reader["AdCp"],
-                  AdVille = (string)reader["AdVille"],
-                  AdPays = (string)reader["AdPays"],
-                  NumTel = (int)reader["NumTel"],
-                  Email = (string)reader["EMail"],
-                  IsActif = (bool)reader["ShowroomIsActif"]
-
-                },
+                Login = (string)reader["Login"],
+                AdRue = (string)reader["PersonnelAdRue"],
+                AdNum = (string)reader["PersonnelAdNum"],
+                AdCP = (int)reader["PersonnelAdCp"],
+                AdVille = (string)reader["PersonnelAdVille"],
+                AdPays = (string)reader["PersonnelAdPays"],
+                NumTel = (reader["PersonnelNumTel"]==DBNull.Value)?null:(int?)reader["PersonnelNumTel"],
+                Email = (reader["PersoEmail"]==DBNull.Value)?null:(string)reader["PersoEmail"],
+                ShowroomId = (int)reader["ShowroomID"],
                 IsActif = (bool)reader["IsActif"],
-                IsAdmin = (bool)reader["IsAdmin"]
+                IsAdmin = (bool)reader["IsAdmin"],
+                AdresseID = (int)reader["PersoAdresseID"]
               };
             }
           }
         }
       }
     }
+
+    //Ok
     public void UnsetAdmin(int id)
     {
       using (SqlConnection connection = new SqlConnection(_constring))
@@ -413,7 +379,7 @@ namespace DAL.Repository.UserRepository
         {
           command.CommandType = CommandType.StoredProcedure;
           command.CommandText = "SP_Personnel_UnsetAdmin";
-          command.Parameters.AddWithValue("@Id", id);
+          command.Parameters.AddWithValue("@id", id);
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
@@ -422,8 +388,12 @@ namespace DAL.Repository.UserRepository
         }
       }
     }
-    public void Update(int id, Personnel entity)
+
+    //Ok rectifié
+    public void Update(Personnel entity)
     {
+      _repoAdresse.UpdateAdresse(entity.AdresseID, entity.AdRue, entity.AdNum, entity.AdCP, entity.AdVille, entity.AdPays, entity.NumTel, entity.Email);
+
       using (SqlConnection connection = new SqlConnection(_constring))
       {
         using (SqlCommand command = connection.CreateCommand())
@@ -434,27 +404,23 @@ namespace DAL.Repository.UserRepository
           command.Parameters.AddWithValue("@Prenom", entity.Prenom);
           command.Parameters.AddWithValue("@dateDeNaissance", entity.DateDeNaissance);
           command.Parameters.AddWithValue("@Login", entity.Login);
-          command.Parameters.AddWithValue("@Password", entity.Password);
           command.Parameters.AddWithValue("@Function", entity.Fonction);
           command.Parameters.AddWithValue("@IsAdmin", entity.IsAdmin);
           command.Parameters.AddWithValue("@DateDengagement", entity.HireDate);
           command.Parameters.AddWithValue("@NbJourAbsence", entity.NbJoursAbsence);
           command.Parameters.AddWithValue("@NbJourVacances", entity.NbJourVacance);
+          command.Parameters.AddWithValue("@Salaire", entity.Salaire);
           command.Parameters.AddWithValue("@ShowroomId", entity.ShowroomId);
-          command.Parameters.AddWithValue("@adRue", entity.AdRue);
-          command.Parameters.AddWithValue("@adNum", entity.AdNum);
-          command.Parameters.AddWithValue("@adCp", entity.AdCP);
-          command.Parameters.AddWithValue("@adVille", entity.AdVille);
-          command.Parameters.AddWithValue("@adPays", entity.AdPays);
-          command.Parameters.AddWithValue("@email", entity.Email);
-          command.Parameters.AddWithValue("@numTel", entity.NumTel);
-          command.Parameters.AddWithValue("@id", id);
+          command.Parameters.AddWithValue("@id", entity.ID);
           command.Parameters.AddWithValue("@isActif", entity.IsActif);
+          command.Parameters.AddWithValue("@adresseId", entity.AdresseID);
+ 
           if (connection.State != ConnectionState.Open)
           {
             connection.Open();
           }
           command.ExecuteNonQuery();
+
         }
       }
     }

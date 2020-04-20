@@ -63,9 +63,9 @@ namespace API_Familit.Services
       return _repo.GetProductListByCaracteristique(idcaract).Select(e => e.ToAPI());
     }
 
-    public void Update(int id, Product_API entity)
+    public void Update(Product_API entity)
     {
-      _repo.Update(id, entity.ToDAL());
+      _repo.Update(entity.ToDAL());
     }
   }
 }

@@ -14,13 +14,16 @@ namespace API_Familit.Controllers
     {
       private ShowroomService _service = new ShowroomService();
 
+    //Vérifié
     [AcceptVerbs("PUT")]
-    [Route("Secure/Showoom/{id}/Activer")]
+    [Route("Secure/Showroom/Activer/{id}")]
+    
     public void Activer(int id)
     {
       _service.Activer(id);
     }
 
+    //Vérifié
     [AcceptVerbs("POST")]
     [Route("Secure/Showroom")]
     public void Add(Showroom_API entity)
@@ -36,7 +39,7 @@ namespace API_Familit.Controllers
     }
 
     [AcceptVerbs("PUT","POST")]
-    [Route("Secure/Showroom/{id}/Desactiver")]
+    [Route("Secure/Showroom/Desactiver/{id}")]
     public void Desactiver(int id)
     {
       _service.Desactiver(id);
@@ -50,14 +53,14 @@ namespace API_Familit.Controllers
     }
 
     [AcceptVerbs("GET")]
-    [Route("Showroom/{id}/GetById")]
+    [Route("Showroom/GetById/{id}")]
     public Showroom_API Get(int id)
     {
       return _service.Get(id);
     }
 
     [AcceptVerbs("GET")]
-    [Route("Showroom/{name}/GetByName")]
+    [Route("Showroom/GetByName/{name}")]
     public IEnumerable<Showroom_API> GetShowroomByName(string name)
     {
       return _service.GetShowroomByName(name);
@@ -65,9 +68,9 @@ namespace API_Familit.Controllers
 
     [AcceptVerbs("PUT")]
     [Route("Secure/Showroom/{id}")]
-    public void Update(int id, Showroom_API entity)
+    public void Update(Showroom_API entity)
     {
-      _service.Update(id, entity);
+      _service.Update(entity);
     }
   }
 }

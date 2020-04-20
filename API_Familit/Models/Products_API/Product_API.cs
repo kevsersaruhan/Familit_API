@@ -14,8 +14,6 @@ namespace API_Familit.Models.Products_API
     }
     public int ID { get; set; }
     public string Nom { get; set; }
-    public Client_API Fournisseur { get; set; }
-    public Categorie_API Categorie { get; set; }
     public IEnumerable<Caracteristique_API> ListeCaracteristiques { get; set; }
     public double Prix { get; set; }
     public double PrixDAchatTHTVA { get; set; }

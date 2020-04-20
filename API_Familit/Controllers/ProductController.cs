@@ -15,7 +15,7 @@ namespace API_Familit.Controllers
     {
       private ProductService _service = new ProductService();
       [AcceptVerbs("PUT")]
-      [Route("Secure/Product/{id}/Activer")]
+      [Route("Secure/Product/Activer/{id}")]
       public void Activer(int id)
       {
         _service.Activer(id);
@@ -36,7 +36,7 @@ namespace API_Familit.Controllers
       }
 
       [AcceptVerbs("PUT", "POST")]
-      [Route("Secure/Product/{id}/Desactiver")]
+      [Route("Secure/Product/Desactiver/{id}")]
       public void Desactiver(int id)
       {
         _service.Desactiver(id);
@@ -57,35 +57,35 @@ namespace API_Familit.Controllers
       }
 
       [AcceptVerbs("GET")]
-      [Route("Product/{id}/GetByFournisseur")]
+      [Route("Product/GetByFournisseur/{id}")]
       public IEnumerable<Product_API> GetProductByFournisseur(int id)
       {
         return _service.GetProductByFournisseur(id);
       }
 
       [AcceptVerbs("GET")]
-      [Route("Product/{nom}/GetByName")]
-      public IEnumerable<Product_API> GetProductByName(string s)
+      [Route("Product/GetByName/{nom}")]
+      public IEnumerable<Product_API> GetProductByName(string nom)
       {
-        return _service.GetProductByName(s);
+        return _service.GetProductByName(nom);
       }
       [AcceptVerbs("GET")]
-      [Route("Product/{id}/GetProductFav")]
+      [Route("Product/GetProductFav/{id}")]
       public IEnumerable<Product_API> GetProductFav(int id)
       {
         return _service.GetProductFav(id);
       }
       [AcceptVerbs("GET")]
-      [Route("Product/{id}/GetByCaracteristique")]
+      [Route("Product/GetByCaracteristique/{id}")]
       public IEnumerable<Product_API> GetProductListByCaracteristique(int idcaract)
       {
         return _service.GetProductListByCaracteristique(idcaract);
       }
       [AcceptVerbs("PUT")]
       [Route("Secure/Product/{id}")]
-      public void Update(int id, Product_API entity)
+      public void Update(Product_API entity)
       {
-        _service.Update(id, entity);
+        _service.Update(entity);
       }
     }
 }

@@ -10,15 +10,8 @@ namespace DAL.Model.Product
 {
   public class Products
   {
-    public Products()
-    {
-      ListeCaracteristiques = new List<Caracteristique>();
-    }
     public int ID { get; set; }
     public string Nom { get; set; }
-    public Client Fournisseur { get; set; }
-    public Categories Categorie { get; set; }
-    public IEnumerable<Caracteristique> ListeCaracteristiques { get; set; }
     public double Prix { get; set; }
     public double PrixDAchatTHTVA { get; set; }
     public double TVA { get; set; }

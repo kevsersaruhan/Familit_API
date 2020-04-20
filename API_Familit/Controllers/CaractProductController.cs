@@ -8,19 +8,20 @@ using System.Web.Http;
 
 namespace API_Familit.Controllers
 {
-    public class CaractProductController : ApiController
+  [RoutePrefix("api")]
+  public class CaractProductController : ApiController
     {
     private ProductCaracteristiqueService _service = new ProductCaracteristiqueService();
 
     [AcceptVerbs ("PUT")]
-    [Route("Secure/CaracteristiqueProduct/{idCaract}/{idProduct}/Add")]
+    [Route("Secure/CaracteristiqueProduct/Add/{idCaract}/{idProduct}")]
       public void AddCaracteristiqueToProduct(int idCaract, int idProduct)
       {
       _service.AddCaracteristiqueToProduct(idCaract, idProduct);
       }
 
     [AcceptVerbs("DELETE")]
-    [Route("Secure/CaracteristiqueProduct/{idCaract}/{idProduct}/Delete")]
+    [Route("Secure/CaracteristiqueProduct/Delete/{idCaract}/{idProduct}")]
     public void DeleteCaracteristiqueFromProduct(int idCaract, int idProduct)
       {
       _service.DeleteCaracteristiqueFromProduct(idCaract, idProduct);

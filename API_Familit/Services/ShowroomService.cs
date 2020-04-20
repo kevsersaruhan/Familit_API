@@ -51,9 +51,9 @@ namespace API_Familit.Services
       return _repo.GetShowroomByName(name).Select(e => e.ToAPI());
     }
 
-    public void Update(int id, Showroom_API entity)
+    public void Update(Showroom_API entity)
     {
-      _repo.Update(id, entity.ToDAL());
+      _repo.Update(entity.ToDAL());
     }
   }
 }

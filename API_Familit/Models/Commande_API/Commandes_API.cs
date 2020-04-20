@@ -20,8 +20,8 @@ namespace API_Familit.Models.Commande_API
       public double Total { get; set; }
       public double Acompte { get; set; }
       public double Solde { get; set; }
-      public Showroom_API Showroom { get; set; }
       public string TypeDeCommande { get; set; }
-    }
+      public int? ShowroomID { get; set; }
+  }
   
 }

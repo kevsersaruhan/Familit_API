@@ -173,6 +173,8 @@
     <Compile Include="Models\Commande_API\CommandeClient_API.cs" />
     <Compile Include="Models\Commande_API\Commandes_API.cs" />
     <Compile Include="Models\Commande_API\LigneDeCommande_API.cs" />
+    <Compile Include="Models\Connexion\ChangePassword.cs" />
+    <Compile Include="Models\Connexion\LoginModel.cs" />
     <Compile Include="Models\Etablissement_API\Showroom_API.cs" />
     <Compile Include="Models\Products_API\Caracteristique_API.cs" />
     <Compile Include="Models\Products_API\Categorie_API.cs" />
